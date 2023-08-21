@@ -13,4 +13,15 @@
  * */
 export default class Team {
   // TODO: write your logic here
+  constructor(characters) {
+    this.members = characters || [];
+  }
+
+  get characters() {
+    return this.members;
+  }
+
+  addCharacter(character) {
+    this.members.push(character);
+  }
 }
