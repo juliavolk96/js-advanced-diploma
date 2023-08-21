@@ -1,4 +1,3 @@
-import { construct } from "core-js/fn/reflect";
 import Character from "../Character";
 
 export default class Bowman extends Character {

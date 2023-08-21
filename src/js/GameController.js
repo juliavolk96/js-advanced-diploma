@@ -1,4 +1,7 @@
 import themes from './themes';
+import PositionedCharacter from './PositionedCharacter';
+import { generateTeam } from './generators';
+import Team from './Team';
 
 export default class GameController {
   constructor(gamePlay, stateService) {
@@ -14,8 +17,44 @@ export default class GameController {
     const theme = themes.prairie;
     // отрисовка игрового интерфейса с указанной темой
     this.gamePlay.drawUi(theme);
+
+    // Генерируем команду игрока и команду соперника
+    const playerTeam = new Team(generateTeam(['swordsman', 'bowman', 'magician'], 1, 2));
+    const enemyTeam = new Team(generateTeam(['undead', 'vampire', 'daemon'], 1, 2));
+
+    // Получаем позиции персонажей для игрока и врага
+    const playerPositions = this.getCharacterPositions(playerTeam.characters, 'player');
+    const enemyPositions = this.getCharacterPositions(enemyTeam.characters, 'enemy');
+
+    // Объединяем позиции персонажей
+    const allPositions = playerPositions.concat(enemyPositions);
+
+    // Отрисовываем персонажей на поле
+    this.gamePlay.redrawPositions(allPositions);
+
     // TODO: add event listeners to gamePlay events
     // TODO: load saved stated from stateService
+  }
+
+  getCharacterPositions(characters, side) {
+    // Распределение позиций персонажей на поле
+    const positions = [];
+
+    if (side === 'player') {
+      for (let i = 0; i < characters.length; i++) {
+        const position = i;
+        const positionedCharacter = new PositionedCharacter(characters[i], position);
+        positions.push(positionedCharacter);
+      }
+    } else if (side === 'enemy') {
+      for (let i = 0; i < characters.length; i++) {
+        const position = i + 48;
+        const positionedCharacter = new PositionedCharacter(characters[i], position);
+        positions.push(positionedCharacter);
+      }
+    }
+
+    return positions;
   }
 
   // onCellClick(index) {
