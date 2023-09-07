@@ -2,6 +2,12 @@ import themes from './themes';
 import PositionedCharacter from './PositionedCharacter';
 import { generateTeam } from './generators';
 import Team from './Team';
+import Bowman from './characters/Bowman';
+import Daemon from './characters/Daemon';
+import Magician from './characters/Magician';
+import Swordsman from './characters/Swordsman';
+import Undead from './characters/Undead';
+import Vampire from './characters/Vampire';
 
 export default class GameController {
   constructor(gamePlay, stateService) {
@@ -19,8 +25,8 @@ export default class GameController {
     this.gamePlay.drawUi(theme);
 
     // Генерируем команду игрока и команду соперника
-    const playerTeam = new Team(generateTeam(['swordsman', 'bowman', 'magician'], 1, 2));
-    const enemyTeam = new Team(generateTeam(['undead', 'vampire', 'daemon'], 1, 2));
+    const playerTeam = new Team(generateTeam([Swordsman, Bowman, Magician]));
+    const enemyTeam = new Team(generateTeam([Undead, Vampire, Daemon], 1, 2));
 
     // Получаем позиции персонажей для игрока и врага
     const playerPositions = this.getCharacterPositions(playerTeam.characters, 'player');
